@@ -1,14 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.booking.BookingFragment">
+    android:fillViewport="true" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="40dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Book a Table"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <!-- Reservation form -->
+        <EditText
+            android:hint="Surname"
+            android:autofillHints="familyName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textPersonName"/>
+
+        <EditText
+            android:hint="Name"
+            android:autofillHints="givenName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textPersonName"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:hint="Date"
+                android:inputType="date"
+                android:autofillHints="date"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:hint="People"
+                android:inputType="number"
+                android:autofillHints="number"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="60dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp" >
+
+            <EditText
+                android:hint="Time"
+                android:autofillHints="time"
+                android:inputType="time"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:text="Submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="155dp"
+                android:background="#000000"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- Reservations -->
+        <TextView
+            android:text="Reservations"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="#888888"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Smith, 15.10.2025\n18:00, 2 people"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_edit"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Edit reservation" />
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_delete"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Delete reservation" />
+            </LinearLayout>
+        </LinearLayout>
+</ScrollView>
