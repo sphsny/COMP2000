@@ -11,12 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Notifications"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+        <TextView style="@style/PrimaryHeader"
+            android:text="Notification" />
     </LinearLayout>
 </ScrollView>

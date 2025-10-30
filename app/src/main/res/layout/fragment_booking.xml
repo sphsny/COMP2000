@@ -15,45 +15,40 @@
         android:layout_gravity="center" >
 
         <TextView style="@style/PrimaryHeader"
-            android:text="Book a Table" />
+            android:text="Reservations" />
+
+        <!-- Book a table -->
+        <TextView style="@style/SecondaryHeader"
+            android:text="Book a table" />
 
         <!-- Reservation form -->
-        <EditText
+        <EditText style="@style/Form"
             android:hint="Surname"
             android:autofillHints="familyName"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:inputType="text"/>
+            android:inputType="text" />
 
-        <EditText
+        <EditText style="@style/Form"
             android:hint="Name"
             android:autofillHints="givenName"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
             android:inputType="text"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:layout_height="wrap_content">
 
-            <EditText
+            <EditText style="@style/Form"
                 android:hint="Date"
                 android:inputType="date"
                 android:autofillHints="date"
                 android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
                 android:layout_marginEnd="8dp"/>
 
-            <EditText
+            <EditText style="@style/Form"
                 android:hint="People"
                 android:inputType="number"
                 android:autofillHints="number"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="60dp"/>
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -63,31 +58,24 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="16dp" >
 
-            <EditText
+            <EditText style="@style/Form"
                 android:hint="Time"
                 android:autofillHints="time"
                 android:inputType="time"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
                 android:layout_marginEnd="8dp"/>
 
             <Button style="@style/PrimaryButton"
                 android:text="Submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="155dp" /> <!-- make button same length as people input -->
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <!-- Reservations -->
-        <TextView
-            android:text="Reservations"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <TextView style="@style/SecondaryHeader"
+            android:text="Upcoming reservations" />
 
         <LinearLayout style="@style/Card" >
 
