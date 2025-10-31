@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation="horizontal"
     android:background="@color/light_blue"
-    android:gravity="center_vertical"
-    android:paddingHorizontal="12dp">
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp">
 
     <!-- Restaurant Logo -->
     <View
+        android:id="@+id/logo_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@color/black"
-        android:contentDescription="Logo placeholder" />
-
-    <!-- Spacer -->
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:contentDescription="Logo placeholder"/>
 
     <!-- Notifications Icon -->
     <ImageView
+        android:id="@+id/notification_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/baseline_notifications_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/baseline_notifications_24"
-        android:contentDescription="Notifications icon" />
-</LinearLayout>
+        android:contentDescription="Notifications icon"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true" >
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="40dp"
-        android:layout_width="400dp"
+    <!-- Settings Screen Header -->
+    <TextView style="@style/PrimaryHeader"
+        android:id="@+id/settings_screen_header"
+        android:text="Settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Profile Settings Header -->
+    <TextView style="@style/SecondaryHeader"
+        android:id="@+id/settings_profile_header"
+        android:text="Profile"
+        app:layout_constraintTop_toBottomOf="@id/settings_screen_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Profile Settings Box -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_settings_box"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
+        app:layout_constraintTop_toBottomOf="@id/settings_profile_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="8dp"
+        app:layout_constrainedWidth="true">
 
-        <TextView style="@style/PrimaryHeader"
-            android:text="Settings" />
-    </LinearLayout>
-</ScrollView>
+        <TextView style="@style/SettingsText"
+            android:id="@+id/profile_settings_text1"
+            android:text="Sample Profile Setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/profile_setting_toggle1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView style="@style/Icon"
+            android:id="@+id/profile_setting_toggle1"
+            android:src="@drawable/round_check_box_outline_blank_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Notification Settings Header -->
+    <TextView style="@style/SecondaryHeader"
+        android:id="@+id/settings_notifications_header"
+        android:text="Notications"
+        app:layout_constraintTop_toBottomOf="@id/profile_settings_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Notification Settings Box -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notification_setting_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/settings_notifications_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="10dp"
+        app:layout_constrainedWidth="true">
+
+        <!-- Notification Settings Text -->
+        <TextView style="@style/SettingsText"
+            android:id="@+id/notification_setting_text1"
+            android:text="Receive notification upon booking update"
+            app:layout_constraintEnd_toStartOf="@id/notification_setting_toggle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Toggle Setting Icon -->
+        <ImageView style="@style/Icon"
+            android:id="@+id/notification_setting_toggle"
+            android:hint="Toggle setting"
+            android:src="@drawable/round_check_box_outline_blank_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
