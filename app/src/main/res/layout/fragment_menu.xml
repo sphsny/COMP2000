@@ -1,41 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp">
+        android:padding="16dp">
 
+        <!-- Menu Screen Header -->
         <TextView style="@style/PrimaryHeader"
+            android:id="@+id/menuHeader"
             android:text="Check out our Menu!"
-            android:gravity="center" />
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Divider -->
+        <!-- Category Header -->
         <TextView style="@style/SecondaryHeader"
-            android:text="Sample Category" />
+            android:id="@+id/categoryHeader"
+            android:text="Sample Category"
+            app:layout_constraintTop_toBottomOf="@id/menuHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Menu item -->
-        <LinearLayout style="@style/Card" >
+        <!-- Menu Item Card -->
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/Card"
+            android:id="@+id/menu_item_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintTop_toBottomOf="@id/categoryHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <!-- Image placeholder -->
             <ImageView style="@style/MenuItemPhoto"
-                android:contentDescription="Description of the food" />
+                android:id="@+id/menu_image_1"
+                android:contentDescription="Description of the food"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-            <!-- Item details -->
-            <LinearLayout style="@style/FoodDetailsBox" >
+            <!-- Item details box -->
+            <androidx.constraintlayout.widget.ConstraintLayout style="@style/FoodDetailsBox"
+                android:id="@+id/food_details_box"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/menu_image_1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="12dp">
+
                 <TextView style="@style/FoodItemName"
-                    android:text="Food Item Name 1" />
+                    android:id="@+id/food_name"
+                    android:text="Food Item Name 1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView style="@style/FoodItemDetails"
-                    android:text="Details, such as ingredients" />
+                    android:id="@+id/food_details"
+                    android:text="Details, such as ingredients"
+                    app:layout_constraintTop_toBottomOf="@id/food_name"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView style="@style/FoodItemPrice"
-                    android:text="$10" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+                    android:id="@+id/food_price"
+                    android:text="$10"
+                    app:layout_constraintTop_toBottomOf="@id/food_details"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
