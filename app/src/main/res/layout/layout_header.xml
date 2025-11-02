@@ -29,9 +29,11 @@
         android:layout_height="40dp"
         android:contentDescription="Notifications icon"
         android:src="@drawable/baseline_notifications_24"
-        android:tint="@color/white"
+        app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.733" />
+        app:layout_constraintVertical_bias="0.733"
+        android:clickable="true"
+        android:focusable="true"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

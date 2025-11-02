@@ -1,6 +1,7 @@
 package com.example.comp2000;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,6 +25,18 @@ public class MainActivity extends AppCompatActivity {
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(navView, navController);
+
+
+            ImageView notificationIcon = findViewById(R.id.notification_icon);
+
+            // not correctly working!!
+            notificationIcon.setOnClickListener(v -> {
+                if (navController.getCurrentDestination() == null ||
+                        navController.getCurrentDestination().getId() != R.id.navigation_notifications) {
+                    navController.navigate(R.id.navigation_notifications);
+                }
+            });
+
         } else {
             throw new IllegalStateException("NavHostFragment not found in activity_main.xml");
         }
