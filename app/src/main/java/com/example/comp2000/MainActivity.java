@@ -16,7 +16,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navView, navController);
+
+        androidx.navigation.fragment.NavHostFragment navHostFragment =
+                (androidx.navigation.fragment.NavHostFragment)
+                        getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+            NavigationUI.setupWithNavController(navView, navController);
+        } else {
+            throw new IllegalStateException("NavHostFragment not found in activity_main.xml");
+        }
     }
 }
