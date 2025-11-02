@@ -4,31 +4,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="100dp"
     android:background="@color/navy"
     android:orientation="horizontal"
     android:paddingHorizontal="20dp">
 
     <!-- Restaurant Logo -->
+
+    <!-- Notifications Icon -->
     <View
         android:id="@+id/logo_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@color/white"
-        android:contentDescription="Logo placeholder"/>
+        android:contentDescription="Logo placeholder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.733" />
 
-    <!-- Notifications Icon -->
     <ImageView
         android:id="@+id/notification_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/baseline_notifications_24"
-        android:tint="@color/white"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:contentDescription="Notifications icon"/>
+        android:contentDescription="Notifications icon"
+        android:src="@drawable/baseline_notifications_24"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.733" />
 </androidx.constraintlayout.widget.ConstraintLayout>
