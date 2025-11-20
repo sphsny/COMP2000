@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,6 +26,9 @@ import android.widget.Toast;
 import com.example.comp2000.databinding.FragmentLoginBinding;
 
 import com.example.comp2000.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+// currently accepts any parameters for successful log in
 
 public class LoginFragment extends Fragment {
 
@@ -80,6 +85,10 @@ public class LoginFragment extends Fragment {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    // connect to navcontroller
+                    NavController navController = NavHostFragment.findNavController(LoginFragment.this);
+                    // navigate to home page
+                    navController.navigate(R.id.navigation_home);
                 }
             }
         });
@@ -140,6 +149,22 @@ public class LoginFragment extends Fragment {
                     errorString,
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        // hide bottom nav bar when loginfragment is visible on screen
+        super.onResume();
+        BottomNavigationView nav = getActivity().findViewById(R.id.bottom_nav);
+        nav.setVisibility(View.GONE); // from android built in view class, hide view
+    }
+
+    @Override
+    public void onPause() {
+        // shows bottom nav bar when loginfragment is not visible on screen
+        super.onPause();
+        BottomNavigationView nav = getActivity().findViewById(R.id.bottom_nav);
+        nav.setVisibility(View.VISIBLE); // from android built in view class, show view
     }
 
     @Override
