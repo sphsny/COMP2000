@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.comp2000.MainActivity;
 import com.example.comp2000.databinding.FragmentLoginBinding;
 
 import com.example.comp2000.R;
@@ -49,6 +53,10 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // hide staff header via mainactivity
+        ((MainActivity) requireActivity()).setStaffBannerVisible(false);
+
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -79,12 +87,27 @@ public class LoginFragment extends Fragment {
                 if (loginResult == null) {
                     return;
                 }
+
                 loadingProgressBar.setVisibility(View.GONE);
+
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
+
                 if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                    // logged in user details
+                    LoggedInUserView user = loginResult.getSuccess();
+                    // update staff role via sharedpreferences (in-built key-value collection, updated across whole app)
+                    SharedPreferences prefs = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+                    // apply userrole to sharedpreferences and save asynchronously
+                    prefs.edit().putBoolean("isStaff", user.isStaff()).apply();
+                    // hide or show staff indicator via mainactivity
+                    ((MainActivity) requireActivity()).setStaffBannerVisible(user.isStaff());
+                    // log print to see active users role after login
+                    Log.d("DEBUG", "User isStaff = " + user.isStaff());
+
+                    // update UI
+                    updateUiWithUser(user);
                     // connect to navcontroller
                     NavController navController = NavHostFragment.findNavController(LoginFragment.this);
                     // navigate to home page
@@ -153,18 +176,24 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onResume() {
-        // hide bottom nav bar when loginfragment is visible on screen
         super.onResume();
+        // hide bottom nav bar when loginfragment is visible on screen
         BottomNavigationView nav = getActivity().findViewById(R.id.bottom_nav);
         nav.setVisibility(View.GONE); // from android built in view class, hide view
+        // hide header the same way
+        View header = getActivity().findViewById(R.id.header);
+        header.setVisibility(View.GONE);
     }
 
     @Override
     public void onPause() {
-        // shows bottom nav bar when loginfragment is not visible on screen
         super.onPause();
+        // shows bottom nav bar when loginfragment is not visible on screen
         BottomNavigationView nav = getActivity().findViewById(R.id.bottom_nav);
         nav.setVisibility(View.VISIBLE); // from android built in view class, show view
+        // same with header
+        View header = getActivity().findViewById(R.id.header);
+        header.setVisibility(View.VISIBLE);
     }
 
     @Override

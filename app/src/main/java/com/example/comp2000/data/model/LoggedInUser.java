@@ -7,6 +7,9 @@ public class LoggedInUser {
 
     private String userId;
     private String displayName;
+    // add bool for staff auth, 0/false = client, 1/true = staff
+    private boolean isStaff;
+
 
     public LoggedInUser(String userId, String displayName) {
         this.userId = userId;
@@ -20,4 +23,8 @@ public class LoggedInUser {
     public String getDisplayName() {
         return displayName;
     }
+
+    public boolean isStaff() { return isStaff; }
+
+    public void setStaff(boolean staff) { isStaff = staff; }
 }

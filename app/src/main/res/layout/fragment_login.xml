@@ -18,6 +18,7 @@
             android:id="@+id/welcome_header"
             android:text="Welcome to Our Restaurant!"
             android:gravity="center"
+            android:paddingTop="50dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

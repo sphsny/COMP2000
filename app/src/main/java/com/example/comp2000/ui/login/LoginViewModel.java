@@ -35,7 +35,8 @@ public class LoginViewModel extends ViewModel {
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+            // added isStaff parameter to check role upon login
+            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName(), data.isStaff())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
