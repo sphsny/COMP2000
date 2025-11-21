@@ -45,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setStaffBannerVisible(checkIfUserIsStaff());
     }
 
+    // check user role from Roles.java
     private boolean checkIfUserIsStaff() {
-        // get key value pair from sharedpreferences to check if isStaff is true
-        return getSharedPreferences("user", MODE_PRIVATE).getBoolean("isStaff", false);
+        return Roles.isStaff(this);
     }
+
 
     // helper method for staff indicator in header
     public void setStaffBannerVisible(boolean visible) {

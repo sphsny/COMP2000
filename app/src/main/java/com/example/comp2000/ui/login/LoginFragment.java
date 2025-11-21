@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp2000.MainActivity;
+import com.example.comp2000.Roles;
 import com.example.comp2000.databinding.FragmentLoginBinding;
 
 import com.example.comp2000.R;
@@ -97,15 +98,12 @@ public class LoginFragment extends Fragment {
                 if (loginResult.getSuccess() != null) {
                     // logged in user details
                     LoggedInUserView user = loginResult.getSuccess();
-                    // update staff role via sharedpreferences (in-built key-value collection, updated across whole app)
-                    SharedPreferences prefs = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-                    // apply userrole to sharedpreferences and save asynchronously
-                    prefs.edit().putBoolean("isStaff", user.isStaff()).apply();
+                    // get staff role from Roles.java
+                    Roles.setStaff(requireContext(), user.isStaff());
                     // hide or show staff indicator via mainactivity
                     ((MainActivity) requireActivity()).setStaffBannerVisible(user.isStaff());
                     // log print to see active users role after login
                     Log.d("DEBUG", "User isStaff = " + user.isStaff());
-
                     // update UI
                     updateUiWithUser(user);
                     // connect to navcontroller
