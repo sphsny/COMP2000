@@ -3,64 +3,68 @@ package com.example.comp2000.ui.menu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import com.example.comp2000.data.model.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.comp2000.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // parameters
+    private RecyclerView recyclerView; // display list items in recyclerview
+    private MenuAdapter adapter; // uses adapter to convert each item XML into view
+    private List<MenuItem> menuList = new ArrayList<>(); // list that holds menu items
 
     public MenuFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MenuFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MenuFragment newInstance(String param1, String param2) {
-        MenuFragment fragment = new MenuFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        // required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu, container, false);
+
+        // inflate view (xml -> view)
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+
+        // find recyclerview by ID
+        recyclerView = view.findViewById(R.id.menuRecyclerView);
+        // set layout for recyclerview
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // custom method to load menu items into recyclerview
+        loadMenuItems();
+
+        // check if isStaff is true
+
+        // get menuadapter
+        adapter = new MenuAdapter(requireContext(), menuList);
+        // connect adapter to recyclerview
+        recyclerView.setAdapter(adapter);
+
+        // pass clicks to adapter
+        adapter.setOnItemClickListener(position -> {
+            MenuItem item = menuList.get(position); // get current position to render items
+            // listen to edit and delete button clicks
+            // open edit window
+            // delete item from list
+        });
+
+        // return the inflated view
+        return view;
+    }
+
+    // sample menu items, get from DB later?
+    private void loadMenuItems() {
+        menuList.add(new MenuItem("Pizza", "£10", R.drawable.ic_menu));
+        menuList.add(new MenuItem("Pasta", "£8", R.drawable.ic_menu));
+        menuList.add(new MenuItem("Tiramisu", "£4", R.drawable.ic_menu));
     }
 }
