@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Card"
+    android:id="@+id/reservation_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp">
+
+    <!-- Username from UserID stored in DB -->
+    <TextView
+        android:id="@+id/res_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="FirstName LastName"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Time + People in bottom row container, from client side booking in DB -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_row"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/res_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/res_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18:30"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- People -->
+        <TextView
+            android:id="@+id/res_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4 people"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/res_time"
+            app:layout_constraintTop_toTopOf="@id/res_time"
+            android:layout_marginStart="16dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Cancel reservation button, delete reservation from list -->
+    <Button
+        style="@style/PrimaryButton"
+        android:id="@+id/res_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:backgroundTint="#9E1A1A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

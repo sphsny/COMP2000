@@ -3,6 +3,8 @@ package com.example.comp2000.data.model;
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
+
+// CURRENT logged in user information
 public class LoggedInUser {
 
     private String userId;

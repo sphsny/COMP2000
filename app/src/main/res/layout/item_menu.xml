@@ -37,6 +37,7 @@
         <TextView
             android:id="@+id/food_details"
             style="@style/FoodItemDetails"
+            android:textColor="@color/blue"
             android:text="Details, such as ingredients"
             app:layout_constraintTop_toBottomOf="@id/food_name"/>
 

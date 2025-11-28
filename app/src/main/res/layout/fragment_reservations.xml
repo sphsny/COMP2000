@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Reservations Header -->
+    <TextView
+        style="@style/PrimaryHeader"
+        android:id="@+id/reservations_header"
+        android:text="Reservations"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Box that holds Date, where the User can click on left and right button to change the date -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Card"
+        android:id="@+id/date_card"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/navy"
+        app:layout_constraintTop_toBottomOf="@id/reservations_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Left Button, the buttons look a bit off right now -->
+        <Button
+            android:id="@+id/left_date_btn"
+            style="@style/PrimaryButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="50dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/navy"
+            android:text="&lt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Current date -->
+        <TextView
+            android:id="@+id/dateHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15/10/2025"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/left_date_btn"
+            app:layout_constraintEnd_toStartOf="@id/right_date_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Right Button -->
+        <Button
+            android:id="@+id/right_date_btn"
+            style="@style/PrimaryButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="50dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/navy"
+            android:text="&gt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- RecyclerView for Booking, sorted by time, maybe CursorAdapter? -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reservationsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/date_card"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
