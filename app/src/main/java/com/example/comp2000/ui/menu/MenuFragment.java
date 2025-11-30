@@ -66,5 +66,8 @@ public class MenuFragment extends Fragment {
         menuList.add(new MenuItem("Pizza", "£10", R.drawable.ic_menu));
         menuList.add(new MenuItem("Pasta", "£8", R.drawable.ic_menu));
         menuList.add(new MenuItem("Tiramisu", "£4", R.drawable.ic_menu));
+        menuList.add(new MenuItem("Pizza", "£10", R.drawable.ic_menu));
+        menuList.add(new MenuItem("Pasta", "£8", R.drawable.ic_menu));
+        menuList.add(new MenuItem("Tiramisu", "£4", R.drawable.ic_menu));
     }
 }

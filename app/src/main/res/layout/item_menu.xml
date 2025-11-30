@@ -32,22 +32,48 @@
         <TextView
             android:id="@+id/food_name"
             style="@style/FoodItemName"
-            android:text="Food Item Name" />
+            android:text="Food Item Name"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/food_details"
             style="@style/FoodItemDetails"
             android:textColor="@color/blue"
             android:text="Details, such as ingredients"
-            app:layout_constraintTop_toBottomOf="@id/food_name"/>
+            app:layout_constraintTop_toBottomOf="@id/food_name"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/food_price"
             style="@style/FoodItemPrice"
             android:text="$10"
-            app:layout_constraintTop_toBottomOf="@id/food_details"/>
+            app:layout_constraintTop_toBottomOf="@id/food_details"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- STAFF BUTTONS, visibility gone by default -->
+    <ImageButton
+        android:id="@+id/btn_edit_item"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_edit"
+        android:background="@android:color/transparent"
+        android:contentDescription="Edit item"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/btn_delete_item"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_delete_item"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_delete"
+        android:background="@android:color/transparent"
+        android:contentDescription="Delete item"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- add admin edit and delete button -->
 </androidx.constraintlayout.widget.ConstraintLayout>
