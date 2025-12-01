@@ -2,15 +2,15 @@ package com.example.comp2000.data.model;
 
 public class MenuItem {
     public String name;
+    public String details;
     public String price;
-    public int image;
+    public String imageUri; // item picture
 
-    public MenuItem(String name, String price, int image) {
+    // constructor
+    public MenuItem(String name, String details, String price, String imageUri) {
         this.name = name;
+        this.details = details;
         this.price = price;
-        this.image = image;
+        this.imageUri = imageUri;
     }
 }
-
-// use as
-// MenuItem item = new MenuItem("Pizza", "£10", R.drawable.pizza);
