@@ -14,11 +14,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // set role and user parameters
+    public static String CURRENT_ROLE = "";
+    public static String CURRENT_USER = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // retrieve role and user data from LoginActivity
+        CURRENT_ROLE = getIntent().getStringExtra("role");
+        CURRENT_USER = getIntent().getStringExtra("username");
 
         // find bottom nav bar from bottom nav xml
         BottomNavigationView navView = findViewById(R.id.bottom_nav);

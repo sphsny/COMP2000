@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Settings Screen Header -->
+        <!-- Profile Screen Header -->
         <TextView style="@style/PrimaryHeader"
             android:id="@+id/settings_screen_header"
-            android:text="Settings"
+            android:text="Profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -23,7 +23,7 @@
         <!-- Profile Settings Header -->
         <TextView style="@style/SecondaryHeader"
             android:id="@+id/settings_profile_header"
-            android:text="Profile"
+            android:text="Profile Data"
             app:layout_constraintTop_toBottomOf="@id/settings_screen_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -36,25 +36,49 @@
             app:layout_constraintTop_toBottomOf="@id/settings_profile_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+
             android:paddingHorizontal="10dp"
             android:layout_marginTop="8dp"
             app:layout_constrainedWidth="true">
 
-            <TextView style="@style/SettingsText"
-                android:id="@+id/profile_settings_text1"
-                android:text="Sample Profile Setting"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/profile_setting_toggle1"
+            <TextView
+                android:id="@+id/username"
+                style="@style/SettingsText"
+                android:text="Username:"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"/>
 
-            <ImageView style="@style/Icon"
-                android:id="@+id/profile_setting_toggle1"
-                android:contentDescription="On/off toggle"
-                android:src="@drawable/round_check_box_outline_blank_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/firstname"
+                style="@style/SettingsText"
+                android:text="Firstname:"
+                app:layout_constraintTop_toBottomOf="@id/username"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/lastname"
+                style="@style/SettingsText"
+                android:text="Lastname:"
+                app:layout_constraintTop_toBottomOf="@id/firstname"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/email"
+                style="@style/SettingsText"
+                android:text="Email:"
+                app:layout_constraintTop_toBottomOf="@id/lastname"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/contact"
+                style="@style/SettingsText"
+                android:text="Contact:"
+                app:layout_constraintTop_toBottomOf="@id/email"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Notification Settings Header -->
@@ -102,10 +126,10 @@
             style="@style/PrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="356dp"
+            android:layout_marginTop="24dp"
             android:text="Log Out"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notification_setting_row"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_screen_header" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
