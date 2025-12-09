@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +24,18 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final List<Booking> bookings; // list to hold bookings
     private final boolean isStaff; // get current users role, from the Staff and Client Booking Fragments
 
+    private final OnCancelClickListener cancelListener; // listener for cancel button (staff side)
+
+    public interface OnCancelClickListener {
+        void onCancel(Booking booking);
+    }
+
     // display bookings based on role
-    public BookingAdapter(List<Booking> bookings, boolean isStaff) {
+    // booking constructor
+    public BookingAdapter(List<Booking> bookings, boolean isStaff, OnCancelClickListener cancelListener) {
         this.bookings = bookings;
         this.isStaff = isStaff;
+        this.cancelListener = cancelListener;
     }
 
     @Override
@@ -57,8 +66,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // data that is displayed at specified position in recyyclerview while scrolling
     @Override
-    public void onBindViewHolder(
-            @NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         Booking booking = bookings.get(position);
 
@@ -70,12 +78,26 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             h.name.setText(booking.name);
             h.time.setText(booking.time);
             h.people.setText(booking.people + " people");
+            // set cancel button
+            h.cancel.setOnClickListener(v -> {
+                if (cancelListener != null)
+                    cancelListener.onCancel(booking);
+            });
         } else {
             // client side view holder
             ClientViewHolder h = (ClientViewHolder) holder;
             // no name as client doesn't need to see their own name
-            h.time.setText(booking.time);
+            // date + time
+            String dateTime = booking.date + " - " + booking.time;
+            h.time.setText(dateTime);
+            // amount of people
             h.people.setText(booking.people + " people");
+            // delete booking
+            h.delete.setOnClickListener(v -> {
+                if (cancelListener != null)
+                    cancelListener.onCancel(booking);
+            });
+            // edit booking
         }
     }
 
@@ -103,12 +125,15 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     // client side view holder, elements shown in each recyclerview
     static class ClientViewHolder extends RecyclerView.ViewHolder {
         TextView time, people; // booking time (date, time, and amount of people)
+        ImageButton edit, delete;
 
         public ClientViewHolder(@NonNull View itemView) {
             super(itemView);
             // get elements from xml file
             time = itemView.findViewById(R.id.booking_time);
             people = itemView.findViewById(R.id.booking_people);
+            edit = itemView.findViewById(R.id.res_edit);
+            delete = itemView.findViewById(R.id.res_delete);
         }
     }
 }

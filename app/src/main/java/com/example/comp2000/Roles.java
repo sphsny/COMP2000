@@ -18,11 +18,18 @@ public class Roles {
                 .putBoolean("isStaff", isStaff) // value to store
                 .apply(); // save changes asynchronously
     }
-}
 
-// example usage:
-// if (Roles.isStaff(requireContext())) {
-//        button.setVisibility(View.VISIBLE); // button visible for staff
-//    } else {
-//        button.setVisibility(View.GONE); // and hidden for client
-//    }
+    // set username across application to use for booking retrieval
+    public static void setUsername(Context context, String username) {
+        context.getSharedPreferences("user", Context.MODE_PRIVATE)
+                .edit()
+                .putString("username", username)
+                .apply();
+    }
+
+    // get username across application
+    public static String getUsername(Context context) {
+        return context.getSharedPreferences("user", Context.MODE_PRIVATE)
+                .getString("username", null);
+    }
+}

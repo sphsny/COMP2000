@@ -91,7 +91,7 @@
         <!-- Upcoming Reservations -->
         <TextView style="@style/SecondaryHeader"
             android:id="@+id/header_upcoming"
-            android:text="Upcoming reservations"
+            android:text="Reservations"
             app:layout_constraintTop_toBottomOf="@id/time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

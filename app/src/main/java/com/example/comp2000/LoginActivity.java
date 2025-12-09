@@ -2,6 +2,7 @@ package com.example.comp2000;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -73,6 +74,10 @@ public class LoginActivity extends AppCompatActivity {
                     boolean isStaff = user.usertype != null && user.usertype.equalsIgnoreCase("staff");
                     Roles.setStaff(this, isStaff);
 
+                    // set username to display username tied attributes, save full name to username
+                    String fullName = user.firstname + " " + user.lastname;
+                    Roles.setUsername(this, fullName);
+
                     // launch MainActivity via intent
                     Intent intent = new Intent(this, MainActivity.class);
                     // pass user parameters
@@ -84,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                 },
                 // catch volley errors
                 error -> {
-                    Toast.makeText(this, "Volley error: " + error.toString(), Toast.LENGTH_LONG).show();
+                    Log.e("API", error.toString());
+                    Toast.makeText(this, "Volley error: ", Toast.LENGTH_LONG).show();
                 }
         );
         // add request to volley queue
