@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
         contactView = view.findViewById(R.id.contact);
         Button logOutButton = view.findViewById(R.id.log_out);
 
-        // load profile based on currently logged in user
+        // load profile via API based on currently logged in user
         loadUserData(MainActivity.CURRENT_USER);
 
         // logout logic on button click
@@ -82,32 +82,56 @@ public class ProfileFragment extends Fragment {
 
         // object request for single user's data
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-                    // extract json data from user object
-                    JSONObject userJson = response.optJSONObject("user");
 
-                    // catch error if no user data could be loaded
-                    if (userJson == null) {
-                        Toast.makeText(getContext(), "Could not load user profile", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+            if (!isAdded()) return;
 
-                    // convert json into user model using gson
-                    User user = gson.fromJson(userJson.toString(), User.class);
+            // extract json data from user object
+            JSONObject userJson = response.optJSONObject("user");
 
-                    // update UI with user values
-                    usernameView.setText("Username: " + (user.username));
-                    firstnameView.setText("First name: " + (user.firstname));
-                    lastnameView.setText("Last name: " + (user.lastname));
-                    emailView.setText("Email: " + (user.email));
-                    contactView.setText("Contact: " + (user.contact));
-                },
-                // catch volley error
-                error -> {
-                    Toast.makeText(getContext(), "Could not load user", Toast.LENGTH_SHORT).show();
-                    Log.e("ProfileFragment", "Volley error", error);
-                }
+            // catch error if no user data could be loaded
+            if (userJson == null) {
+                loadLocalProfile(); // load locally saved data instead
+                return;
+            }
+
+            // convert json into user model using gson
+            User user = gson.fromJson(userJson.toString(), User.class);
+
+            saveUserToLocal(user); // save user data to local storage
+            loadLocalProfile(); // load user data from local storage
+        },
+            // catch volley error
+            error -> {
+                if (!isAdded()) return; // safe volley error message https://developer.android.com/reference/androidx/fragment/app/Fragment#isAdded()
+                Toast.makeText(requireContext(), "Could not update user data", Toast.LENGTH_SHORT).show();
+                loadLocalProfile();
+            }
         );
         // pass request into volley queue
         Volley.newRequestQueue(requireContext()).add(request);
+    }
+
+    // save user data from API to local storage (shared preferences)
+    private void saveUserToLocal(User user) {
+        var localStorage = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE).edit();
+
+        localStorage.putString("username", user.username);
+        localStorage.putString("firstname", user.firstname);
+        localStorage.putString("lastname", user.lastname);
+        localStorage.putString("email", user.email);
+        localStorage.putString("contact", user.contact);
+
+        localStorage.apply();
+    }
+
+    // load stored user details from shared preferences
+    private void loadLocalProfile() {
+        var localStorage = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        usernameView.setText("Username: " + localStorage.getString("username", ""));
+        firstnameView.setText("First name: " + localStorage.getString("firstname", ""));
+        lastnameView.setText("Last name: " + localStorage.getString("lastname", ""));
+        emailView.setText("Email: " + localStorage.getString("email", ""));
+        contactView.setText("Contact: " + localStorage.getString("contact", ""));
     }
 }

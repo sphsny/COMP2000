@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.comp2000.ui.notifications.NotificationHelper;
 import com.example.comp2000.R;
 import com.example.comp2000.data.model.Booking;
 import com.example.comp2000.data.model.RestaurantDB;
@@ -143,6 +144,13 @@ public class ClientBookingFragment extends Fragment {
 
         Booking booking = new Booking(username, date, time, people); // create new booking
         boolean success = db.addBooking(booking); // add to DB on success
+
+        // notify staff about new booking
+        NotificationHelper.sendNotification(
+                requireContext(),
+                "New Booking!",
+                "Table booked for the " + booking.date + " for " + booking.people + " people!"
+        );
 
         // provide feedback to user
         if (success) {

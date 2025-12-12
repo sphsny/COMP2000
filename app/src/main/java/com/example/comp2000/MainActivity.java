@@ -1,11 +1,15 @@
 package com.example.comp2000;
 
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -22,26 +26,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_main);
 
-        // retrieve role and user data from LoginActivity
-        CURRENT_ROLE = getIntent().getStringExtra("role");
-        CURRENT_USER = getIntent().getStringExtra("username");
+        // retrieve username and user role from shared preferences (works offline)
+        CURRENT_USER = Roles.getUsername(this);
+        CURRENT_ROLE = Roles.isStaff(this) ? "staff" : "client";
+
+        // permissions required for notifications
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        101
+                );
+            }
+        }
 
         // find bottom nav bar from bottom nav xml
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
 
-        // find navhostfragment from navhostfragment xml
+        // find nav host fragment from nav host fragment xml
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
 
-        // make sure navhostfragment is found
+        // make sure nav host fragment is found
         if (navHostFragment == null) {
             throw new IllegalStateException("NavHostFragment not found in activity_main.xml");
         }
 
-        // get navcontroller from navhostfragment xml to navigate between screens
+        // get nav controller from nav host fragment xml to navigate between screens
         NavController navController = navHostFragment.getNavController();
-        // connect bottom nav bar to navcontroller to navigate via buttons
+        // connect bottom nav bar to nav controller to navigate via buttons
         NavigationUI.setupWithNavController(navView, navController);
     }
 

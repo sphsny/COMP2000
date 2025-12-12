@@ -60,7 +60,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
 
     // CRUD for Menu
     // add menu item (create)
-    public long addMenuItem(MenuItem item) {
+    public void addMenuItem(MenuItem item) {
         SQLiteDatabase db = this.getWritableDatabase(); // open DB in writable mode
         ContentValues cv = new ContentValues(); // key value pairs
 
@@ -70,7 +70,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
         cv.put(MENU_IMAGE, item.imageName);
 
         // insert into menu table
-        return db.insert(MENU, null, cv);
+        db.insert(MENU, null, cv);
     }
 
     // get menu items (read)

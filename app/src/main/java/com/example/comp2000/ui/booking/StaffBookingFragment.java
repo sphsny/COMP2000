@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.comp2000.ui.notifications.NotificationHelper;
 import com.example.comp2000.R;
 import com.example.comp2000.data.model.Booking;
 import com.example.comp2000.data.model.RestaurantDB;
@@ -89,6 +90,14 @@ public class StaffBookingFragment extends Fragment {
 
         BookingAdapter adapter = new BookingAdapter(bookings, true, booking -> {
             db.deleteBooking(booking); // delete booking
+
+            // notify user upon cancelled booking
+            NotificationHelper.sendNotification(
+                    requireContext(),
+                    "Booking Cancelled",
+                    "The booking for the " + booking.date + " has been cancelled."
+            );
+
             loadBookings(); // update list
         });
 

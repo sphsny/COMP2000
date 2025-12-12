@@ -32,12 +32,6 @@
         android:label="Staff Booking" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.comp2000.ui.notifications.NotificationsFragment"
-        android:label="Notifications"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.comp2000.ProfileFragment"
         android:label="Settings"

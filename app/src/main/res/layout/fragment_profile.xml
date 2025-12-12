@@ -2,7 +2,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -10,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <!-- Profile Screen Header -->
         <TextView style="@style/PrimaryHeader"
@@ -84,7 +83,7 @@
         <!-- Notification Settings Header -->
         <TextView style="@style/SecondaryHeader"
             android:id="@+id/settings_notifications_header"
-            android:text="Notications"
+            android:text="Notification Settings"
             app:layout_constraintTop_toBottomOf="@id/profile_settings_box"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,27 +97,41 @@
             app:layout_constraintTop_toBottomOf="@id/settings_notifications_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="10dp"
-            app:layout_constrainedWidth="true">
+            android:paddingHorizontal="10dp">
 
-            <!-- Notification Settings Text -->
-            <TextView style="@style/SettingsText"
+            <TextView
                 android:id="@+id/notification_setting_text1"
+                style="@style/SettingsText"
                 android:text="Receive notification upon booking update"
-                app:layout_constraintEnd_toStartOf="@id/notification_setting_toggle"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintEnd_toStartOf="@id/notification_switch1"
+                app:layout_constraintBottom_toTopOf="@id/notification_setting_text2" />
 
-            <!-- Toggle Setting Icon -->
-            <ImageView style="@style/Icon"
-                android:id="@+id/notification_setting_toggle"
-                android:contentDescription="On/off toggle"
-                android:hint="Toggle setting"
-                android:src="@drawable/round_check_box_outline_blank_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/notification_switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/notification_setting_text1"
+                app:layout_constraintBottom_toBottomOf="@id/notification_setting_text1"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/notification_setting_text2"
+                style="@style/SettingsText"
+                android:text="Receive notification when booking is cancelled"
+                app:layout_constraintTop_toBottomOf="@id/notification_setting_text1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/notification_switch2"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/notification_switch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/notification_setting_text2"
+                app:layout_constraintBottom_toBottomOf="@id/notification_setting_text2"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
@@ -126,10 +139,12 @@
             style="@style/PrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="100dp"
             android:text="Log Out"
             app:layout_constraintTop_toBottomOf="@id/notification_setting_row"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+
+<!-- switch: https://developer.android.com/reference/com/google/android/material/switchmaterial/SwitchMaterial -->

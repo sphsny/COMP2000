@@ -32,6 +32,17 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        boolean loggedIn = getSharedPreferences("user", MODE_PRIVATE)
+                .getBoolean("loggedIn", false);
+
+        // if user is logged in, skip login activity
+        if (loggedIn) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish(); // closes login activity
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         editUsername = findViewById(R.id.username);
@@ -78,6 +89,17 @@ public class LoginActivity extends AppCompatActivity {
                     String fullName = user.firstname + " " + user.lastname;
                     Roles.setUsername(this, fullName);
 
+                    // save user details locally
+                    getSharedPreferences("user", MODE_PRIVATE)
+                            .edit()
+                            .putBoolean("loggedIn", true)
+                            .putString("username", user.username)
+                            .putString("firstname", user.firstname)
+                            .putString("lastname", user.lastname)
+                            .putString("email", user.email)
+                            .putString("contact", user.contact)
+                            .apply();
+
                     // launch MainActivity via intent
                     Intent intent = new Intent(this, MainActivity.class);
                     // pass user parameters
@@ -90,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                 // catch volley errors
                 error -> {
                     Log.e("API", error.toString());
-                    Toast.makeText(this, "Volley error: ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
                 }
         );
         // add request to volley queue
