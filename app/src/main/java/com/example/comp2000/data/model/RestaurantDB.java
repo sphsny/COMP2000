@@ -15,6 +15,13 @@ import java.util.List;
 public class RestaurantDB extends SQLiteOpenHelper {
 
     // MENU
+    public static final String MENU = "menu";
+    public static final String MENU_ID = "id";
+    public static final String MENU_NAME = "name";
+    public static final String MENU_DETAILS = "details";
+    public static final String MENU_PRICE = "price";
+    public static final String MENU_IMAGE = "imageName";
+
 
     // BOOKINGS
     public static final String BOOKINGS = "bookings";
@@ -26,29 +33,92 @@ public class RestaurantDB extends SQLiteOpenHelper {
 
     // connect DB
     public RestaurantDB(@Nullable Context context) {
-        super(context, "restaurant.db", null, 1);
+        super(context, "restaurant.db", null, 3);
     }
 
     // executed first time upon creation
     @Override
     public void onCreate(SQLiteDatabase db) {
         // SQL query to create table for Menu
+        String createMenuTable = "CREATE TABLE " + MENU + " (" + MENU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + MENU_NAME + " TEXT, " + MENU_DETAILS + " TEXT, " + MENU_PRICE + " TEXT, " + MENU_IMAGE + " TEXT)";
 
         // SQL query to create table for Bookings
         String createBookingsTable = "CREATE TABLE " + BOOKINGS + " (" + BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BOOKING_NAME + " TEXT, " + BOOKING_DATE + " TEXT, " + BOOKING_TIME + " TEXT, " + BOOKING_PEOPLE + " TEXT)";
 
-        db.execSQL(createBookingsTable); // execSQL(String sql) -> executes raw query
+        // execSQL(String sql) -> executes raw query
+        db.execSQL(createMenuTable);
+        db.execSQL(createBookingsTable);
     }
 
-    // when anything is changed in DB
+    // change DB version, recreate tables
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String dropTable = "DROP TABLE IF EXISTS " + BOOKINGS;
-        db.execSQL(dropTable);
+        db.execSQL("DROP TABLE IF EXISTS " + MENU);
+        db.execSQL("DROP TABLE IF EXISTS " + BOOKINGS);
         onCreate(db);
     }
 
-    // add booking function for client side
+    // CRUD for Menu
+    // add menu item (create)
+    public long addMenuItem(MenuItem item) {
+        SQLiteDatabase db = this.getWritableDatabase(); // open DB in writable mode
+        ContentValues cv = new ContentValues(); // key value pairs
+
+        cv.put(MENU_NAME, item.name);
+        cv.put(MENU_DETAILS, item.details);
+        cv.put(MENU_PRICE, item.price);
+        cv.put(MENU_IMAGE, item.imageName);
+
+        // insert into menu table
+        return db.insert(MENU, null, cv);
+    }
+
+    // get menu items (read)
+    public List<MenuItem> getAllMenuItems() {
+        List<MenuItem> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase(); // open DB in read only mode
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + MENU, null); // read all menu table items
+
+        // go through all menu items
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(MENU_ID)); // assign each menu item ID
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(MENU_NAME));
+                String details = cursor.getString(cursor.getColumnIndexOrThrow(MENU_DETAILS));
+                String price = cursor.getString(cursor.getColumnIndexOrThrow(MENU_PRICE));
+                String imageName = cursor.getString(cursor.getColumnIndexOrThrow(MENU_IMAGE));
+
+                list.add(new MenuItem(id, name, details, price, imageName));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return list; // return list of menu items
+    }
+
+    // update existing item upon changes (update)
+    public void updateMenuItem(int id, MenuItem item) {
+        SQLiteDatabase db = this.getWritableDatabase(); // open DB in writable mode
+        ContentValues cv = new ContentValues();
+
+        cv.put(MENU_NAME, item.name);
+        cv.put(MENU_DETAILS, item.details);
+        cv.put(MENU_PRICE, item.price);
+        cv.put(MENU_IMAGE, item.imageName);
+
+        db.update(MENU, cv, MENU_ID + "=?", new String[]{String.valueOf(id)});// SQLite/android studio db.update function
+    }
+
+    // delete existing menu item (delete)
+    public void deleteMenuItem(int id) {
+        SQLiteDatabase db = this.getWritableDatabase(); // open DB in writable mode
+        db.delete(MENU, MENU_ID + "=?",
+                new String[]{String.valueOf(id)}
+        );
+    }
+
+    // add booking function for client side (create)
     public boolean addBooking(Booking booking){
         SQLiteDatabase db = this.getWritableDatabase(); // opens database in write mode to insert, update or delete operations
         ContentValues cv = new ContentValues(); // key-value pair dictionary, each key is a column name, each value is the data to store
@@ -87,8 +157,6 @@ public class RestaurantDB extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
-
         return outputList;
     }
 
@@ -117,7 +185,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
         return outputList;
     }
 
-    // delete booking
+    // delete booking (delete)
     public void deleteBooking(Booking booking){
         SQLiteDatabase db = this.getWritableDatabase(); // open DB editor
         db.delete(

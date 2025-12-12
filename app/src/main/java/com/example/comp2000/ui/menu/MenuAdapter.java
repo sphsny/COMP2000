@@ -1,7 +1,6 @@
 package com.example.comp2000.ui.menu;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,9 @@ import com.example.comp2000.R;
 import com.example.comp2000.Roles;
 import com.example.comp2000.data.model.MenuItem;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     // variables
@@ -42,6 +43,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public void setOnEditClickListener(OnEditClickListener listener) { this.editClickListener = listener; }
     public void setOnDeleteClickListener(OnDeleteClickListener listener) { this.deleteClickListener = listener; }
 
+    // hashmap for menu item images, containing the name and string path
+    private static final Map<String, Integer> map = new HashMap<>();
+
+    // get hardcoded images
+    static {
+        map.put("pizza1", R.drawable.pizza1);
+        map.put("pizza2", R.drawable.pizza2);
+        map.put("pizza3", R.drawable.pizza3);
+        map.put("pizza4", R.drawable.pizza4);
+        map.put("pizza5", R.drawable.pizza5);
+        map.put("pizza6", R.drawable.pizza6);
+        map.put("default", R.drawable.ic_menu);
+    }
+
+    private int getImage(String imageName) {
+        if (imageName == null) return R.drawable.ic_menu; // set default image if no image name found
+        return map.getOrDefault(imageName, R.drawable.ic_menu); // return image
+    }
 
     // define view holder (everything inside an unique card + its listeners)
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,10 +70,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         TextView foodName, foodDetails, foodPrice; // text views
         ImageButton btnEdit, btnDelete; // buttons
 
-        public ViewHolder(@NonNull View itemView,
-                          OnEditClickListener editListener,
-                          OnDeleteClickListener deleteListener) {
-
+        public ViewHolder(@NonNull View itemView, OnEditClickListener editListener, OnDeleteClickListener deleteListener) {
             super(itemView);
 
             // get elements from XML file by IDs
@@ -113,12 +129,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         holder.foodDetails.setText(item.details);
         holder.foodPrice.setText(item.price);
 
-        // display image via url or if no url available, via fallback icon
-        if (item.imageUri != null) {
-            holder.menuImage.setImageURI(Uri.parse(item.imageUri));
-        } else {
-            holder.menuImage.setImageResource(R.drawable.ic_menu);
-        }
+        // display image using static hashmap
+        holder.menuImage.setImageResource(getImage(item.imageName));
     }
 
     // helpers
