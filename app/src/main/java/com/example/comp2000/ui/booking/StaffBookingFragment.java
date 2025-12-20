@@ -32,7 +32,6 @@ public class StaffBookingFragment extends Fragment {
     private TextView dateHolder;
     private RecyclerView recyclerView;
     private BookingManager bookingManager;
-    private NotificationHelper notificationHelper;
 
     @Nullable
     @Override
@@ -46,7 +45,7 @@ public class StaffBookingFragment extends Fragment {
 
         // add notifications observer
         bookingManager = new BookingManager();
-        notificationHelper = new NotificationHelper(requireContext());
+        NotificationHelper notificationHelper = new NotificationHelper(requireContext());
 
         bookingManager.addObserver(notificationHelper);
 
