@@ -17,10 +17,6 @@ import java.util.List;
 
 public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    // toggle between user types
-    private static final int TYPE_CLIENT = 0;
-    private static final int TYPE_STAFF = 1;
-
     private final List<Booking> bookings; // list to hold bookings
     private final boolean isStaff; // get current users role, from the Staff and Client Booking Fragments
 
@@ -38,12 +34,6 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.cancelListener = cancelListener;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        // get current users type, if true staff, if not client
-        return isStaff ? TYPE_STAFF : TYPE_CLIENT;
-    }
-
     @NonNull
     @Override
     // layout for recyclerview
@@ -51,7 +41,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @NonNull ViewGroup parent, int viewType) {
 
         // switch xml layout based on role
-        if (viewType == TYPE_STAFF) {
+        if (isStaff) {
             // staff layout
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_reservation, parent, false);
