@@ -1,4 +1,4 @@
-package com.example.comp2000;
+package com.example.comp2000.user;
 
 import android.content.Context;
 

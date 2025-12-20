@@ -1,4 +1,4 @@
-package com.example.comp2000.data.model;
+package com.example.comp2000.models;
 
 // matches the User data returned by the API, so that GSON can convert the JSON object into a Java object
 public class User {

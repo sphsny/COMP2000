@@ -1,4 +1,4 @@
-package com.example.comp2000.data.model;
+package com.example.comp2000.models;
 
 // data model used for bookings by both client and staff side
 public class Booking {

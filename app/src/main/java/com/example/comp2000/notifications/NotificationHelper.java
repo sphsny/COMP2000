@@ -1,4 +1,4 @@
-package com.example.comp2000.ui.notifications;
+package com.example.comp2000.notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

@@ -1,4 +1,4 @@
-package com.example.comp2000.data.model;
+package com.example.comp2000.models;
 
 public class MenuItem {
     public int id; // keep count of menu items in DB

@@ -1,4 +1,4 @@
-package com.example.comp2000;
+package com.example.comp2000.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.comp2000.data.model.User;
+import com.example.comp2000.MainActivity;
+import com.example.comp2000.R;
+import com.example.comp2000.models.User;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;

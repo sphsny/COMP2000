@@ -1,4 +1,4 @@
-package com.example.comp2000.data.model;
+package com.example.comp2000.models;
 
 import android.content.ContentValues;
 import android.content.Context;

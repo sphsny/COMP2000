@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.comp2000.ui.notifications.BookingManager;
-import com.example.comp2000.ui.notifications.NotificationHelper;
+import com.example.comp2000.notifications.BookingManager;
+import com.example.comp2000.notifications.NotificationHelper;
 import com.example.comp2000.R;
-import com.example.comp2000.data.model.Booking;
-import com.example.comp2000.data.model.RestaurantDB;
+import com.example.comp2000.models.Booking;
+import com.example.comp2000.models.RestaurantDB;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -97,7 +97,7 @@ public class StaffBookingFragment extends Fragment {
         // get bookings list from DB
         List<Booking> bookings = db.getBookingsForDate(date);
 
-        BookingAdapter adapter = new BookingAdapter(bookings, true, booking -> {
+        BookingStaffAdapter  adapter = new BookingStaffAdapter(bookings, booking -> {
             db.deleteBooking(booking); // delete booking
 
             // notify user upon cancelled booking via booking manager

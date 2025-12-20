@@ -18,12 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.comp2000.ui.notifications.BookingManager;
-import com.example.comp2000.ui.notifications.NotificationHelper;
+import com.example.comp2000.notifications.BookingManager;
+import com.example.comp2000.notifications.NotificationHelper;
 import com.example.comp2000.R;
-import com.example.comp2000.data.model.Booking;
-import com.example.comp2000.data.model.RestaurantDB;
-import com.example.comp2000.Roles;
+import com.example.comp2000.models.Booking;
+import com.example.comp2000.models.RestaurantDB;
+import com.example.comp2000.user.Roles;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -172,23 +172,16 @@ public class ClientBookingFragment extends Fragment {
         String username = Roles.getUsername(requireContext());
 
         // display empty list if no associated bookings found
-        if (username == null) {
-            // display empty list
-            List<Booking> empty = new ArrayList<>();
-            BookingAdapter adapter = new BookingAdapter(empty, false, null);
-            recyclerView.setAdapter(adapter);
-            return;
-        }
+        List<Booking> clientBookings = (username == null) ? new ArrayList<>() : db.getBookingsForUser(username);
 
-        // use function defined in RestaurantDB to get user bookings
-        List<Booking> clientBookings = db.getBookingsForUser(username);
+        // create recyclerview adapter
+        BookingClientAdapter adapter =
+                new BookingClientAdapter(clientBookings, booking -> {
+                    db.deleteBooking(booking); // remove deleted booking from database
+                    loadClientBookings(); // reload the booking list on the ui
+                });
 
-        // connect booking list to recyclerview using constructor
-        BookingAdapter adapter = new BookingAdapter(clientBookings, false, booking -> {
-            db.deleteBooking(booking);
-            loadClientBookings();
-        });
-
+        // attach adapter to recyclerview to display bookings
         recyclerView.setAdapter(adapter);
     }
 }

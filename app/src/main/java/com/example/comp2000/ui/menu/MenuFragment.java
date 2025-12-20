@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 
-import com.example.comp2000.Roles;
-import com.example.comp2000.data.model.MenuItem;
+import com.example.comp2000.user.Roles;
+import com.example.comp2000.models.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.comp2000.R;
-import com.example.comp2000.data.model.RestaurantDB;
+import com.example.comp2000.models.RestaurantDB;
 
 import java.util.ArrayList;
 import java.util.List;

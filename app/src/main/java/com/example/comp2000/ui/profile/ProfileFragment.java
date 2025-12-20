@@ -1,9 +1,8 @@
-package com.example.comp2000;
+package com.example.comp2000.ui.profile;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.comp2000.data.model.User;
+import com.example.comp2000.user.LoginActivity;
+import com.example.comp2000.MainActivity;
+import com.example.comp2000.R;
+import com.example.comp2000.models.User;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;

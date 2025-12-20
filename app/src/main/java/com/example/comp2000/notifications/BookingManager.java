@@ -1,4 +1,4 @@
-package com.example.comp2000.ui.notifications;
+package com.example.comp2000.notifications;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comp2000.R;
-import com.example.comp2000.Roles;
-import com.example.comp2000.data.model.MenuItem;
+import com.example.comp2000.user.Roles;
+import com.example.comp2000.models.MenuItem;
 
 import java.util.HashMap;
 import java.util.List;
