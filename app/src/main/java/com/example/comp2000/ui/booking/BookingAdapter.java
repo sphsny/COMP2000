@@ -64,7 +64,7 @@ public class BookingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    // data that is displayed at specified position in recyyclerview while scrolling
+    // data that is displayed at specified position in recyclerview while scrolling
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 

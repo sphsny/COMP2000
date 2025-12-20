@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.comp2000.ui.notifications.BookingManager;
 import com.example.comp2000.ui.notifications.NotificationHelper;
 import com.example.comp2000.R;
 import com.example.comp2000.data.model.Booking;
@@ -40,6 +41,10 @@ public class ClientBookingFragment extends Fragment {
 
     // set up recyclerview
     private RecyclerView recyclerView;
+    // notifications observer
+    private BookingManager bookingManager;
+    private NotificationHelper notificationHelper;
+
 
     @Nullable
     @Override
@@ -49,6 +54,12 @@ public class ClientBookingFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_client_booking, container, false);
+
+        // add notifications observer
+        bookingManager = new BookingManager();
+        notificationHelper = new NotificationHelper(requireContext());
+
+        bookingManager.addObserver(notificationHelper);
 
         // connect DB
         db = new RestaurantDB(requireContext());
@@ -145,15 +156,10 @@ public class ClientBookingFragment extends Fragment {
         Booking booking = new Booking(username, date, time, people); // create new booking
         boolean success = db.addBooking(booking); // add to DB on success
 
-        // notify staff about new booking
-        NotificationHelper.sendNotification(
-                requireContext(),
-                "New Booking!",
-                "Table booked for the " + booking.date + " for " + booking.people + " people!"
-        );
-
         // provide feedback to user
         if (success) {
+            // notify staff about new booking
+            bookingManager.updateBooking();
             Toast.makeText(getContext(), "Booking created!", Toast.LENGTH_SHORT).show();
             loadClientBookings();
         } else {

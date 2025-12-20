@@ -11,12 +11,13 @@
     android:paddingHorizontal="20dp">
 
     <!-- Notifications Icon -->
-    <View
+    <ImageView
         android:id="@+id/logo_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:contentDescription="Logo placeholder"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:contentDescription="Logo"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

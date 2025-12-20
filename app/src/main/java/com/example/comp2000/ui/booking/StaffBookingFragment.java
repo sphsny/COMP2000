@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.comp2000.ui.notifications.BookingManager;
 import com.example.comp2000.ui.notifications.NotificationHelper;
 import com.example.comp2000.R;
 import com.example.comp2000.data.model.Booking;
@@ -30,6 +31,8 @@ public class StaffBookingFragment extends Fragment {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     private TextView dateHolder;
     private RecyclerView recyclerView;
+    private BookingManager bookingManager;
+    private NotificationHelper notificationHelper;
 
     @Nullable
     @Override
@@ -40,6 +43,12 @@ public class StaffBookingFragment extends Fragment {
 
         // define view to inflate
         View view = inflater.inflate(R.layout.fragment_staff_booking, container, false);
+
+        // add notifications observer
+        bookingManager = new BookingManager();
+        notificationHelper = new NotificationHelper(requireContext());
+
+        bookingManager.addObserver(notificationHelper);
 
         // connect SQLite DB
         db = new RestaurantDB(requireContext());
@@ -91,12 +100,8 @@ public class StaffBookingFragment extends Fragment {
         BookingAdapter adapter = new BookingAdapter(bookings, true, booking -> {
             db.deleteBooking(booking); // delete booking
 
-            // notify user upon cancelled booking
-            NotificationHelper.sendNotification(
-                    requireContext(),
-                    "Booking Cancelled",
-                    "The booking for the " + booking.date + " has been cancelled."
-            );
+            // notify user upon cancelled booking via booking manager
+            bookingManager.cancelBooking();
 
             loadBookings(); // update list
         });

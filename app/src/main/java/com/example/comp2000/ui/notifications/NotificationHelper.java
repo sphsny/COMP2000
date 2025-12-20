@@ -13,12 +13,34 @@ import androidx.core.app.NotificationCompat;
 import com.example.comp2000.MainActivity;
 import com.example.comp2000.R;
 
-public class NotificationHelper {
+public class NotificationHelper implements BookingObserver {
 
     private static final String channelID = "myChannel"; // set channel name
+    private final Context context;
+
+    public NotificationHelper(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void onBookingUpdated() {
+        sendNotification(
+                "Booking Created",
+                "New booking created"
+        );
+    }
+
+    @Override
+    public void onBookingCancelled() {
+        sendNotification(
+                "Booking Cancelled",
+                "Booking has been cancelled"
+        );
+    }
+
 
     // send notification function
-    public static void sendNotification(Context context, String title, String text) {
+    private void sendNotification(String title, String text) {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
