@@ -43,7 +43,6 @@ public class ClientBookingFragment extends Fragment {
     private RecyclerView recyclerView;
     // notifications observer
     private BookingManager bookingManager;
-    private NotificationHelper notificationHelper;
 
 
     @Nullable
@@ -57,7 +56,7 @@ public class ClientBookingFragment extends Fragment {
 
         // add notifications observer
         bookingManager = new BookingManager();
-        notificationHelper = new NotificationHelper(requireContext());
+        NotificationHelper notificationHelper = new NotificationHelper(requireContext());
 
         bookingManager.addObserver(notificationHelper);
 
@@ -161,6 +160,12 @@ public class ClientBookingFragment extends Fragment {
             // notify staff about new booking
             bookingManager.updateBooking();
             Toast.makeText(getContext(), "Booking created!", Toast.LENGTH_SHORT).show();
+
+            // clear form
+            dateInput.setText("");
+            timeInput.setText("");
+            peopleInput.setText("");
+
             loadClientBookings();
         } else {
             Toast.makeText(getContext(), "Failed to create booking.", Toast.LENGTH_SHORT).show();

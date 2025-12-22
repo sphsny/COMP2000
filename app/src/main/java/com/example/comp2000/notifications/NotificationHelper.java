@@ -24,6 +24,9 @@ public class NotificationHelper implements BookingObserver {
 
     @Override
     public void onBookingUpdated() {
+        // check local storage for preference
+        if (!NotificationSettings.bookingUpdateEnabled(context)) return;
+
         sendNotification(
                 "Booking Created",
                 "New booking created"
@@ -32,6 +35,8 @@ public class NotificationHelper implements BookingObserver {
 
     @Override
     public void onBookingCancelled() {
+        if (!NotificationSettings.bookingCancelledEnabled(context)) return;
+
         sendNotification(
                 "Booking Cancelled",
                 "Booking has been cancelled"

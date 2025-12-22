@@ -8,34 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.comp2000.notifications.NotificationSettings;
 import com.example.comp2000.user.LoginActivity;
-import com.example.comp2000.MainActivity;
 import com.example.comp2000.R;
-import com.example.comp2000.models.User;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class ProfileFragment extends Fragment {
 
-    // api connection parameters
-    private static final String BASE_URL = "http://10.240.72.69/comp2000/coursework/";
-    private static final String STUDENT_ID = "student_SK";
-
     // text views
     private TextView usernameView, firstnameView, lastnameView, emailView, contactView;
-
-    // link gson
-    private final Gson gson = new Gson();
 
     // create view hierarchy
     @Nullable
@@ -64,8 +50,36 @@ public class ProfileFragment extends Fragment {
         contactView = view.findViewById(R.id.contact);
         Button logOutButton = view.findViewById(R.id.log_out);
 
-        // load profile via API based on currently logged in user
-        loadUserData(MainActivity.CURRENT_USER);
+        // get user data from local storage
+        loadLocalProfile();
+
+        // link switches for notification toggle
+        SwitchMaterial bookingUpdateSwitch = view.findViewById(R.id.notification_switch1);
+        SwitchMaterial bookingCancelSwitch = view.findViewById(R.id.notification_switch2);
+
+        // load stored preferences from local storage
+        bookingUpdateSwitch.setChecked(
+                NotificationSettings.bookingUpdateEnabled(requireContext())
+        );
+
+        bookingCancelSwitch.setChecked(
+                NotificationSettings.bookingCancelledEnabled(requireContext())
+        );
+
+        // save preferences on change
+        bookingUpdateSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                NotificationSettings.setBookingUpdateEnabled(
+                        requireContext(),
+                        isChecked
+                )
+        );
+
+        bookingCancelSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
+                NotificationSettings.setBookingCancelledEnabled(
+                        requireContext(),
+                        isChecked
+                )
+        );
 
         // logout logic on button click
         logOutButton.setOnClickListener(v -> {
@@ -75,55 +89,6 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(requireContext(), LoginActivity.class));
             requireActivity().finish();
         });
-    }
-
-    // load user data using Gson
-    private void loadUserData(String username) {
-        // api connection
-        String url = BASE_URL + "read_user/" + STUDENT_ID + "/" + username;
-
-        // object request for single user's data
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-
-            if (!isAdded()) return;
-
-            // extract json data from user object
-            JSONObject userJson = response.optJSONObject("user");
-
-            // catch error if no user data could be loaded
-            if (userJson == null) {
-                loadLocalProfile(); // load locally saved data instead
-                return;
-            }
-
-            // convert json into user model using gson
-            User user = gson.fromJson(userJson.toString(), User.class);
-
-            saveUserToLocal(user); // save user data to local storage
-            loadLocalProfile(); // load user data from local storage
-        },
-            // catch volley error
-            error -> {
-                if (!isAdded()) return; // safe volley error message https://developer.android.com/reference/androidx/fragment/app/Fragment#isAdded()
-                Toast.makeText(requireContext(), "Could not update user data", Toast.LENGTH_SHORT).show();
-                loadLocalProfile();
-            }
-        );
-        // pass request into volley queue
-        Volley.newRequestQueue(requireContext()).add(request);
-    }
-
-    // save user data from API to local storage (shared preferences)
-    private void saveUserToLocal(User user) {
-        var localStorage = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE).edit();
-
-        localStorage.putString("username", user.username);
-        localStorage.putString("firstname", user.firstname);
-        localStorage.putString("lastname", user.lastname);
-        localStorage.putString("email", user.email);
-        localStorage.putString("contact", user.contact);
-
-        localStorage.apply();
     }
 
     // load stored user details from shared preferences
