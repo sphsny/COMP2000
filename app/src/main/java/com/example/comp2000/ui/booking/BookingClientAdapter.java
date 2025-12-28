@@ -17,16 +17,21 @@ import java.util.List;
 public class BookingClientAdapter extends RecyclerView.Adapter<BookingClientAdapter.ClientViewHolder> {
 
     private final List<Booking> bookings; // list to hold bookings
-
+    private final OnBookingEditListener editListener;
     private final OnCancelClickListener cancelListener; // listener for delete button (client side)
 
     public interface OnCancelClickListener {
         void onCancel(Booking booking);
     }
 
+    public interface OnBookingEditListener {
+        void onEdit(Booking booking);
+    }
+
     // booking constructor (client side)
-    public BookingClientAdapter(List<Booking> bookings, OnCancelClickListener cancelListener) {
+    public BookingClientAdapter(List<Booking> bookings, OnBookingEditListener editListener, OnCancelClickListener cancelListener) {
         this.bookings = bookings;
+        this.editListener = editListener;
         this.cancelListener = cancelListener;
     }
 
@@ -63,7 +68,12 @@ public class BookingClientAdapter extends RecyclerView.Adapter<BookingClientAdap
                 cancelListener.onCancel(booking);
         });
 
-        // edit booking (not implemented yet)
+        // edit booking
+        h.edit.setOnClickListener(v -> {
+            if (editListener != null) {
+                editListener.onEdit(booking);
+            }
+        });
     }
 
     // helper for recyclerview to know how many items to display in total

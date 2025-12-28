@@ -6,13 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
 // SQLiteOpenHelper -> provides methods for executing SQL operations
 public class RestaurantDB extends SQLiteOpenHelper {
+
+    // create single instance following singleton pattern
+    private static RestaurantDB instance;
 
     // MENU
     public static final String MENU = "menu";
@@ -31,9 +32,17 @@ public class RestaurantDB extends SQLiteOpenHelper {
     public static final String BOOKING_TIME = "time";
     public static final String BOOKING_PEOPLE = "people";
 
-    // connect DB
-    public RestaurantDB(@Nullable Context context) {
-        super(context, "restaurant.db", null, 3);
+    // private constructor to create DB
+    private RestaurantDB(Context context) {
+        super(context, "restaurant.db", null, 4);
+    }
+
+    // single DB instance that is shared across the application
+    public static synchronized RestaurantDB getInstance(Context context) {
+        if (instance == null) {
+            instance = new RestaurantDB(context.getApplicationContext());
+        }
+        return instance;
     }
 
     // executed first time upon creation
@@ -43,7 +52,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
         String createMenuTable = "CREATE TABLE " + MENU + " (" + MENU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + MENU_NAME + " TEXT, " + MENU_DETAILS + " TEXT, " + MENU_PRICE + " TEXT, " + MENU_IMAGE + " TEXT)";
 
         // SQL query to create table for Bookings
-        String createBookingsTable = "CREATE TABLE " + BOOKINGS + " (" + BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BOOKING_NAME + " TEXT, " + BOOKING_DATE + " TEXT, " + BOOKING_TIME + " TEXT, " + BOOKING_PEOPLE + " TEXT)";
+        String createBookingsTable = "CREATE TABLE " + BOOKINGS + " (" + BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BOOKING_NAME + " TEXT, " + BOOKING_DATE + " TEXT, " + BOOKING_TIME + " TEXT, " + BOOKING_PEOPLE + " INTEGER)";
 
         // execSQL(String sql) -> executes raw query
         db.execSQL(createMenuTable);
@@ -145,12 +154,13 @@ public class RestaurantDB extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_NAME));
                 String date_ = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_DATE));
                 String time = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_TIME));
                 int people = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_PEOPLE));
 
-                Booking booking = new Booking(name, date_, time, people);
+                Booking booking = new Booking(id, name, date_, time, people);
                 outputList.add(booking);
 
             } while (cursor.moveToNext());
@@ -172,12 +182,13 @@ public class RestaurantDB extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_NAME));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_DATE));
                 String time = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_TIME));
                 int people = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_PEOPLE));
 
-                outputList.add(new Booking(name, date, time, people));
+                outputList.add(new Booking(id, name, date, time, people));
             } while (cursor.moveToNext());
         }
 
@@ -185,13 +196,23 @@ public class RestaurantDB extends SQLiteOpenHelper {
         return outputList;
     }
 
+    // edit existing booking (update)
+    public void editBooking(Booking booking) {
+        SQLiteDatabase db = this.getWritableDatabase(); // open DB in writable mode
+        ContentValues cv = new ContentValues();
+
+        cv.put(BOOKING_NAME, booking.name);
+        cv.put(BOOKING_DATE, booking.date);
+        cv.put(BOOKING_TIME, booking.time);
+        cv.put(BOOKING_PEOPLE, booking.people);
+
+        db.update(BOOKINGS, cv, BOOKING_ID + "=?", new String[]{String.valueOf(booking.id)});
+    }
+
     // delete booking (delete)
     public void deleteBooking(Booking booking){
         SQLiteDatabase db = this.getWritableDatabase(); // open DB editor
-        db.delete(
-                BOOKINGS, BOOKING_NAME + "=? AND " + BOOKING_DATE + "=? AND " + BOOKING_TIME + "=?",
-                new String[]{booking.name, booking.date, booking.time}
-        );
+        db.delete(BOOKINGS, BOOKING_ID + "=?", new String[]{String.valueOf(booking.id)});
     }
 }
 

@@ -45,7 +45,7 @@ public class MenuFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.menuRecyclerView); // display list items in recyclerview
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext())); // set layout for recyclerview
 
-        db = new RestaurantDB(requireContext());
+        db = RestaurantDB.getInstance(requireContext());
         menuList.clear();
         menuList.addAll(db.getAllMenuItems());
 

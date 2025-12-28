@@ -50,7 +50,7 @@ public class StaffBookingFragment extends Fragment {
         bookingManager.addObserver(notificationHelper);
 
         // connect SQLite DB
-        db = new RestaurantDB(requireContext());
+        db = RestaurantDB.getInstance(requireContext());
 
         // find views from XML file
         dateHolder = view.findViewById(R.id.dateHolder);

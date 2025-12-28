@@ -14,7 +14,7 @@ public class BookingRouterFragment extends Fragment {
     public void onResume() {
         super.onResume(); // called when fragment is visible to user and actively running
 
-        // get navcontroller ! could this be simplified in main/navcontroller?
+        // get nav controller
         NavController nav = NavHostFragment.findNavController(this);
 
         // change navigation to either client or staff booking screen based on roles, as the icon stays the same

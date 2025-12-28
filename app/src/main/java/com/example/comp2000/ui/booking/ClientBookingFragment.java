@@ -44,6 +44,9 @@ public class ClientBookingFragment extends Fragment {
     // notifications observer
     private BookingManager bookingManager;
 
+    // variables for editing a booking
+    private boolean isEditing = false;
+    private Booking editedBooking;
 
     @Nullable
     @Override
@@ -61,7 +64,7 @@ public class ClientBookingFragment extends Fragment {
         bookingManager.addObserver(notificationHelper);
 
         // connect DB
-        db = new RestaurantDB(requireContext());
+        db = RestaurantDB.getInstance(requireContext());
 
         // connect XML layout
         dateInput = view.findViewById(R.id.date);
@@ -152,24 +155,38 @@ public class ClientBookingFragment extends Fragment {
 
         int people = Integer.parseInt(peopleStr); // convert people int to string, may be not ideal for DB efficiency ...
 
-        Booking booking = new Booking(username, date, time, people); // create new booking
-        boolean success = db.addBooking(booking); // add to DB on success
+        if (!isEditing) {
+            Booking booking = new Booking(username, date, time, people); // create new booking
+            boolean success = db.addBooking(booking); // add to DB on success
 
-        // provide feedback to user
-        if (success) {
-            // notify staff about new booking
-            bookingManager.updateBooking();
-            Toast.makeText(getContext(), "Booking created!", Toast.LENGTH_SHORT).show();
+            // provide feedback to user
+            if (success) {
+                // notify staff about new booking
+                bookingManager.updateBooking();
+                Toast.makeText(getContext(), "Booking created!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // get booking to edit
+            Booking booking = new Booking(editedBooking.id, username, date, time, people);
+
+            // open booking in db to edit
+            db.editBooking(booking);
+
+            // finish editing
+            isEditing = false;
+            editedBooking = null;
+
+            // notify user about updated booking
+            Toast.makeText(getContext(), "Booking updated!", Toast.LENGTH_SHORT).show();
+        }
 
             // clear form
             dateInput.setText("");
             timeInput.setText("");
             peopleInput.setText("");
 
+            // update booking list
             loadClientBookings();
-        } else {
-            Toast.makeText(getContext(), "Failed to create booking.", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void loadClientBookings() {
@@ -179,15 +196,25 @@ public class ClientBookingFragment extends Fragment {
         // display empty list if no associated bookings found
         List<Booking> clientBookings = (username == null) ? new ArrayList<>() : db.getBookingsForUser(username);
 
-        // create recyclerview adapter
+        // create recyclerview adapter, called on changes
         BookingClientAdapter adapter =
-                new BookingClientAdapter(clientBookings, booking -> {
+                new BookingClientAdapter(clientBookings, this::fillExistingValues, booking -> {
                     db.deleteBooking(booking); // remove deleted booking from database
                     loadClientBookings(); // reload the booking list on the ui
                 });
-
         // attach adapter to recyclerview to display bookings
         recyclerView.setAdapter(adapter);
+    }
+
+    // helper method to fill existing values into the form when user wants to edit their booking
+    private void fillExistingValues(Booking booking) {
+        isEditing = true;
+        editedBooking = booking; // pass booking into edit mode
+
+        // auto fill values
+        dateInput.setText(booking.date);
+        timeInput.setText(booking.time);
+        peopleInput.setText(String.valueOf(booking.people));
     }
 }
 
