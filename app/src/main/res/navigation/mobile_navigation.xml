@@ -18,19 +18,22 @@
 
     <fragment
         android:id="@+id/navigation_booking"
-        android:name="com.example.comp2000.ui.booking.BookingFragment"
-        android:label="Booking"
-        tools:layout="@layout/fragment_booking" />
+        android:name="com.example.comp2000.ui.booking.BookingRouterFragment"
+        android:label="Booking" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.comp2000.ui.notifications.NotificationsFragment"
-        android:label="Notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_client_booking"
+        android:name="com.example.comp2000.ui.booking.ClientBookingFragment"
+        android:label="Client Booking" />
+
+    <fragment
+        android:id="@+id/navigation_staff_booking"
+        android:name="com.example.comp2000.ui.booking.StaffBookingFragment"
+        android:label="Staff Booking" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.comp2000.ui.settings.SettingsFragment"
+        android:name="com.example.comp2000.ui.profile.ProfileFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_profile" />
 </navigation>
