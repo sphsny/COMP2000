@@ -27,6 +27,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
     // BOOKINGS
     public static final String BOOKINGS = "bookings";
     public static final String BOOKING_ID = "id";
+    public static final String BOOKING_USERNAME = "username";
     public static final String BOOKING_NAME = "name";
     public static final String BOOKING_DATE = "date";
     public static final String BOOKING_TIME = "time";
@@ -52,7 +53,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
         String createMenuTable = "CREATE TABLE " + MENU + " (" + MENU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + MENU_NAME + " TEXT, " + MENU_DETAILS + " TEXT, " + MENU_PRICE + " TEXT, " + MENU_IMAGE + " TEXT)";
 
         // SQL query to create table for Bookings
-        String createBookingsTable = "CREATE TABLE " + BOOKINGS + " (" + BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BOOKING_NAME + " TEXT, " + BOOKING_DATE + " TEXT, " + BOOKING_TIME + " TEXT, " + BOOKING_PEOPLE + " INTEGER)";
+        String createBookingsTable = "CREATE TABLE " + BOOKINGS + " (" + BOOKING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BOOKING_USERNAME + " TEXT, " + BOOKING_NAME + " TEXT, " + BOOKING_DATE + " TEXT, " + BOOKING_TIME + " TEXT, " + BOOKING_PEOPLE + " INTEGER)";
 
         // execSQL(String sql) -> executes raw query
         db.execSQL(createMenuTable);
@@ -133,6 +134,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues(); // key-value pair dictionary, each key is a column name, each value is the data to store
 
         // attributes that each booking contains: name, date, time and amount of people
+        cv.put(BOOKING_USERNAME, booking.username);
         cv.put(BOOKING_NAME, booking.name);
         cv.put(BOOKING_DATE, booking.date);
         cv.put(BOOKING_TIME, booking.time);
@@ -155,12 +157,13 @@ public class RestaurantDB extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_ID));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_USERNAME));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_NAME));
                 String date_ = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_DATE));
                 String time = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_TIME));
                 int people = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_PEOPLE));
 
-                Booking booking = new Booking(id, name, date_, time, people);
+                Booking booking = new Booking(id, username, name, date_, time, people);
                 outputList.add(booking);
 
             } while (cursor.moveToNext());
@@ -176,7 +179,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
         List<Booking> outputList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase(); // open DB to read only
 
-        String query = "SELECT * FROM " + BOOKINGS + " WHERE " + BOOKING_NAME + "=? ORDER BY " + BOOKING_DATE + " ASC, " + BOOKING_TIME + " ASC";
+        String query = "SELECT * FROM " + BOOKINGS + " WHERE " + BOOKING_USERNAME + "=? ORDER BY " + BOOKING_DATE + " ASC, " + BOOKING_TIME + " ASC";
         // pass in SQL query with username parameter
         Cursor cursor = db.rawQuery(query, new String[]{username});
 
@@ -188,7 +191,7 @@ public class RestaurantDB extends SQLiteOpenHelper {
                 String time = cursor.getString(cursor.getColumnIndexOrThrow(BOOKING_TIME));
                 int people = cursor.getInt(cursor.getColumnIndexOrThrow(BOOKING_PEOPLE));
 
-                outputList.add(new Booking(id, name, date, time, people));
+                outputList.add(new Booking(id, username, name, date, time, people));
             } while (cursor.moveToNext());
         }
 

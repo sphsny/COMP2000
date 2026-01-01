@@ -1,6 +1,8 @@
 package com.example.comp2000.ui.booking;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,8 +143,13 @@ public class ClientBookingFragment extends Fragment {
     }
 
     private void submitBooking() {
+        // get shared preferences for full name
+        SharedPreferences prefs = requireContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         // pass in values
         String username = Roles.getUsername(requireContext());
+        String firstName = prefs.getString("firstname", "");
+        String lastName  = prefs.getString("lastname", "");
+        String name  = firstName + " " + lastName;
         String date = dateInput.getText().toString().trim();
         String time = timeInput.getText().toString().trim();
         String peopleStr = peopleInput.getText().toString().trim();
@@ -156,7 +163,7 @@ public class ClientBookingFragment extends Fragment {
         int people = Integer.parseInt(peopleStr); // convert people int to string, may be not ideal for DB efficiency ...
 
         if (!isEditing) {
-            Booking booking = new Booking(username, date, time, people); // create new booking
+            Booking booking = new Booking(username, name, date, time, people); // create new booking
             boolean success = db.addBooking(booking); // add to DB on success
 
             // provide feedback to user
@@ -167,7 +174,7 @@ public class ClientBookingFragment extends Fragment {
             }
         } else {
             // get booking to edit
-            Booking booking = new Booking(editedBooking.id, username, date, time, people);
+            Booking booking = new Booking(editedBooking.id, username, name, date, time, people);
 
             // open booking in db to edit
             db.editBooking(booking);
